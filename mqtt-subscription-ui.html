@@ -1,20 +1,20 @@
 <!-- import polymer-->
-<link rel="import" href="polymer/polymer.html"/>
-<link rel="import" href="core-collapse/core-collapse.html"/>
-<link rel="import" href="core-overlay/core-overlay.html"/>
-<link rel="import" href="core-icon/core-icon.html"/>
-<link rel="import" href="core-icons/core-icons.html"/>
-<link rel="import" href="core-icons/iconsets/av-icons.html"/>
-<link rel="import" href="core-icon-button/core-icon-button.html">
-<link rel="import" href="core-toolbar/core-toolbar.html"/>
-<link rel="import" href="core-tooltip/core-tooltip.html">
+<link rel="import" href="../polymer/polymer.html"/>
+<link rel="import" href="../core-collapse/core-collapse.html"/>
+<link rel="import" href="../core-overlay/core-overlay.html"/>
+<link rel="import" href="../core-icon/core-icon.html"/>
+<link rel="import" href="../core-icons/core-icons.html"/>
+<link rel="import" href="../core-icons/iconsets/av-icons.html"/>
+<link rel="import" href="../core-icon-button/core-icon-button.html">
+<link rel="import" href="../core-toolbar/core-toolbar.html"/>
+<link rel="import" href="../core-tooltip/core-tooltip.html">
 
-<link rel="import" href="paper-button/paper-button.html">
-<link rel="import" href="paper-dialog/paper-dialog-transition.html">
-<link rel="import" href="paper-dialog/paper-dialog.html">
-<link rel="import" href="paper-fab/paper-fab.html">
-<link rel="import" href="paper-radio-button/paper-radio-button.html">
-<link rel="import" href="paper-radio-group/paper-radio-group.html">
+<link rel="import" href="../paper-button/paper-button.html">
+<link rel="import" href="../paper-dialog/paper-dialog-transition.html">
+<link rel="import" href="../paper-dialog/paper-dialog.html">
+<link rel="import" href="../paper-fab/paper-fab.html">
+<link rel="import" href="../paper-radio-button/paper-radio-button.html">
+<link rel="import" href="../paper-radio-group/paper-radio-group.html">
 
 
 <!--todo(sandro-k) publish via bower    -->
@@ -23,8 +23,8 @@
 <link rel="import" href="../../components/mqtt-message-detail-ui/mqtt-message-detail-ui.html">
 <link rel="import" href="../../components/mqtt-message-ui/mqtt-message.html">
 
-<script src="../../bower_components/moment/min/moment.min.js"></script>
-<script src="../../bower_components/jquery/dist/jquery.js"></script>
+<script src="../moment/min/moment.min.js"></script>
+<script src="../jquery/dist/jquery.js"></script>
 
 <!-- declare element -->
 <polymer-element id="{{connectionID}}{{topicID}}" name="mqtt-subscription-ui" attributes="topic, messages, connectionID, topicID, options" constructor="MqttSubscriptionUI">
