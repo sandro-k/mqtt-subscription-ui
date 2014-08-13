@@ -17,11 +17,12 @@
 <link rel="import" href="../paper-radio-group/paper-radio-group.html">
 
 <link rel="import" href="../changeover-icon/changeover-icon.html"/>
+<link rel="import" href="../code-pretty/code-pretty.html"/>
 <!--todo(sandro-k) publish via bower    -->
 
-<link rel="import" href="../../components/code-pretty/code-pretty.html"/>
-<link rel="import" href="../../components/mqtt-message-detail-ui/mqtt-message-detail-ui.html">
-<link rel="import" href="../../components/mqtt-message-ui/mqtt-message.html">
+
+<!--<link rel="import" href="../mqtt-message-detail-ui.html">-->
+<link rel="import" href="../mqtt-message-ui/mqtt-message-ui.html">
 
 <script src="../moment/min/moment.min.js"></script>
 <script src="../jquery/dist/jquery.js"></script>
@@ -38,7 +39,7 @@
     <div class="connection {{connectionID}} bg nine border zero sub expanded">
       <div class="row">
         <div class="options" layout horizontal center>
-          <h3 class="mr">Topic: "{{topic}}"</h3>
+          <h3 class="mlr">Topic: "{{topic}}"</h3>
 
           <div>
             Showing messages from {{((showMessageCount > messages.length ) ? 0 : messages.length - showMessageCount ) }}  to {{messages.length}}
@@ -93,7 +94,7 @@
 
             <!--</h1>-->
            <template if="{{ ((messages.length > showMessageCount) &&  (index >= messages.length-showMessageCount)) || ((messages.length <= showMessageCount) && (index < showMessageCount)) || showAll }}">
-             <mqtt-message id="[[index]]" message="{{message}}"></mqtt-message>
+             <mqtt-message-ui id="[[index]]" message="{{message}}"></mqtt-message-ui>
            </template>
 
 

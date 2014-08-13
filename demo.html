@@ -3,23 +3,25 @@
 <head lang="en">
   <meta charset="UTF-8">
   <title>mqtt connection demo</title>
-  <script src="../platform/platform.js"></script>
-  <link rel="import" href="mqtt-subscription-ui.html.html">
+  <!--<script src="../platform/platform.js"></script>-->
+  <script src="../../bower_components/platform/platform.js"></script>
+  <link rel="import" href="mqtt-subscription-ui.html">
+  <link rel="import" href="../core-icons/core-icons.html"/>
+  <link rel="import" href="../core-icon/core-icon.html"/>
 </head>
 <body unresolved>
 
-
 <polymer-element name="demo-tag">
   <!-- outermost template defines the element's shadow DOM -->
-
   <template>
-    <mqtt-subscription topic="{{topic}}" messages="{{messages}}"></mqtt-subscription>
+    <mqtt-subscription-ui topic="{{topic}}" messages="{{messages}}"></mqtt-subscription-ui>
   </template>
 
   <script>
     Polymer('demo-tag', {
 
-      create: function () {
+      created: function () {
+        console.log("1");
 
       },
 
@@ -45,9 +47,6 @@
 
 <demo-tag></demo-tag>
 
-<script>
 
-
-</script>
 </body>
 </html>
