@@ -220,7 +220,7 @@
 
       removeFromDOM: function () {
         console.log("removeFromDOM");
-        console.log(this.$.subscriptionOptions.opened);
+//        console.log(this.$.subscriptionOptions.opened);
 //        this.tmp = this.$.subscriptionOptions;
 
 //        this.tmp.$.overlay.completeBackdrop();
@@ -231,12 +231,12 @@
 //
 //        }
 
-        var backdrop = this.$.subscriptionOptions.$.overlay.scrim;
+//        var backdrop = this.$.subscriptionOptions.$.overlay.scrim;
 
         // the backdrop exists if the settings were opened first
-        if (backdrop && backdrop.parentNode) {
-          backdrop.parentNode.removeChild(backdrop);
-        }
+//        if (backdrop && backdrop.parentNode) {
+//          backdrop.parentNode.removeChild(backdrop);
+//        }
 
         this.parentNode.removeChild(this);
       },
