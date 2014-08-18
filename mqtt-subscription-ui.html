@@ -41,8 +41,8 @@
         <div class="options" layout horizontal center>
           <h3 class="mlr">Topic: "{{topic}}"</h3>
 
-          <div>
-            Showing messages from {{((showMessageCount > messages.length ) ? 0 : messages.length - showMessageCount ) }}  to {{messages.length}}
+          <div class="ml">
+            <span class="ml">Showing the last {{ showMessageCount }} messages</span>
           </div>
           <core-icon icon="remove" on-click="{{lessMessages}}" disabled></core-icon>
           <core-icon icon="add" on-click="{{moreMessages}}"></core-icon>
@@ -176,16 +176,14 @@
       addMessage: function (message) {
         if (message.payload.charAt(0) == '{'){
           message.type = 'json'
-          console.log(message.payload);
-          console.log(typeof message.payload);
-//          message.payload = "aaa";
-          message.test = "{'bbbb': 'aa'}";
         } else {
-          message.type = 'plain'
+          message.type = 'plain';
         }
 
 
         this.messages.push(message);
+        console.log(message.payload);
+
         if (!this.isOpen){
           this.sumUnRead++;
         }
