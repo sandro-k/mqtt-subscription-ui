@@ -15,7 +15,8 @@
     "homepage": "https://github.com/sandro-k/mqtt-subscription-ui",
     "private": false,
     "ignore": [
-        "node_modules"
+        "node_modules",
+        "*.sass"
     ],
     "dependencies": {
         "polymer": "Polymer/polymer#>=0.3.0 <1.0.0",
