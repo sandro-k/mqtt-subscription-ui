@@ -1,23 +1,14 @@
 <!-- import polymer-->
 <link rel="import" href="../polymer/polymer.html"/>
 <link rel="import" href="../core-collapse/core-collapse.html"/>
-<link rel="import" href="../core-overlay/core-overlay.html"/>
+<!--<link rel="import" href="../core-overlay/core-overlay.html"/>-->
 <link rel="import" href="../core-icon/core-icon.html"/>
 <link rel="import" href="../core-icons/core-icons.html"/>
 <link rel="import" href="../core-icons/av-icons.html"/>
 <link rel="import" href="../core-icon-button/core-icon-button.html">
-<link rel="import" href="../core-toolbar/core-toolbar.html"/>
 <link rel="import" href="../core-tooltip/core-tooltip.html">
 
-<link rel="import" href="../paper-button/paper-button.html">
-<link rel="import" href="../paper-dialog/paper-dialog-transition.html">
-<link rel="import" href="../paper-dialog/paper-dialog.html">
-<link rel="import" href="../paper-fab/paper-fab.html">
-<link rel="import" href="../paper-radio-button/paper-radio-button.html">
-<link rel="import" href="../paper-radio-group/paper-radio-group.html">
-
 <link rel="import" href="../changeover-icon/changeover-icon.html"/>
-<link rel="import" href="../code-pretty/code-pretty.html"/>
 <!--todo(sandro-k) publish via bower    -->
 
 
@@ -29,13 +20,8 @@
 
 <!-- declare element -->
 <polymer-element id="{{connectionID}}{{topicID}}" name="mqtt-subscription-ui" attributes="topic, messages, connectionID, topicID, options" constructor="MqttSubscriptionUI">
-
   <template>
-
-    <link rel="stylesheet" href="build/style.css"/>
-    <link rel="stylesheet" href="build/custom.css"/>
-
-
+    <link rel="stylesheet" href="mqtt-subscription-ui.css"/>
     <div class="connection {{connectionID}} bg nine border zero sub expanded">
       <div class="row">
         <div class="options" layout horizontal center>
@@ -51,10 +37,7 @@
               <!--class="pull-right"-->
               <!--on-click="{{pause}}"-->
               <!--icon="av:pause"></core-icon>-->
-
-
           <div flex></div>
-
 
           <core-tooltip id="unsubscribeTooltip" position="top">
             <core-icon
@@ -70,7 +53,6 @@
               <span class="badge">Messages: {{sumUnRead}}/{{messages.length}}</span>
           </span>
 
-
           <changeover-icon
               icon="expand-less"
               up="expand-more"
@@ -83,20 +65,9 @@
 
       <core-collapse id="messages" opened>
           <template repeat="{{message, index in messages}}">
-
-            <!--<h1>{{index}} - {{messages.length}}</h1>-->
-            <!--<h1>-->
-              <!--{{messages.length > 5 }} &&-->
-              <!--{{index >= messages.length-5}} ||-->
-              <!--{{messages.length <= 5}} &&-->
-              <!--{{index < 5}} = {{ ((messages.length > 5) &&  (index >= messages.length-5)) || ((messages.length <= 5) && (index < 5))  }}-->
-
-
-            <!--</h1>-->
            <template if="{{ ((messages.length > showMessageCount) &&  (index >= messages.length-showMessageCount)) || ((messages.length <= showMessageCount) && (index < showMessageCount)) || showAll }}">
-             <mqtt-message-ui id="[[index]]" message="{{message}}"></mqtt-message-ui>
+             <mqtt-message-ui id="[[index]]" messagId="[[index]]" message="{{message}}"></mqtt-message-ui>
            </template>
-
 
           </template>
 
@@ -112,7 +83,6 @@
 
   <script>
     Polymer('mqtt-subscription-ui', {
-
       /**
        * Extra options that control affect the subscription
        */
@@ -120,21 +90,14 @@
         qos: 0,
         messageId: null
       },
-
       options_shadow: {},
-
       /**
        *
        */
       topicID: '',
-
       topic : '',
-
       showMessageCount: 5,
-
       showAll: false,
-
-
 
       observe: {
         'options.qos': 'qosChanged',
@@ -142,9 +105,6 @@
       },
 
       created: function () {
-        console.debug("created:");
-        console.debug(this);
-
         this.message = { ID: 1 };
         this.messages = [];
         // todo change
@@ -152,16 +112,10 @@
         this.sumUnRead = 0;
         this.isOpen = true;
         this.removeDialog = false;
-
-        this.options_shadow = {qos: this.options.qos, messageId: this.options.messageId};
-      },
-
-      ready: function () {
-        console.debug("ready");
-      },
-
-      domReady: function () {
-//        this.test = '{"id":"387","name":"greenhouse","description":"Thesensorboxofthegreenhouseonmyterrace","datastreams":[{"id":"9347","name":"temperature","description":"Temperature"},{"id":"9348","name":"Humidity","description":"Humidity"}]}';
+        this.options_shadow = {
+          qos: this.options.qos,
+          messageId: this.options.messageId
+        };
       },
 
       handelopen: function (event, detail, sender) {
@@ -180,14 +134,11 @@
           message.type = 'plain';
         }
 
-
         this.messages.push(message);
-        console.log(message.payload);
 
         if (!this.isOpen){
           this.sumUnRead++;
         }
-
       },
 
       settings: function () {
@@ -195,52 +146,22 @@
       },
 
       pause: function () {
-        console.log("pause")
         this.fire('pause', {topic: this.topic, connectionID: this.connectionID, source: this});
       },
 
-      qosChanged: function () {
-        console.log("qosChanged: %s", this.options.qos);
-        console.log("OldQos: %s", this.options_shadow.qos);
-      },
 
       deleteSub: function (inEvent, inDetail ,inSender) {
-        console.log("deleteSub");
         var model = inSender.templateInstance.model;
-        console.log(model);
-//        this.fire('unsubscribe', {topic: this.topic, connectionID: this.connectionID, source: this});
       },
 
       saveSub: function () {
-        console.log("saveSub");
-        //this.fire('changeSub', {topic: this.topic, connectionID: this.connectionID, source: this});
       },
 
       removeFromDOM: function () {
-        console.log("removeFromDOM");
-//        console.log(this.$.subscriptionOptions.opened);
-//        this.tmp = this.$.subscriptionOptions;
-
-//        this.tmp.$.overlay.completeBackdrop();
-//        console.log(this.tmp);
-//        this.tmp.remove();
-
-//        while (this.$.subscriptionOptions.opened) {
-//
-//        }
-
-//        var backdrop = this.$.subscriptionOptions.$.overlay.scrim;
-
-        // the backdrop exists if the settings were opened first
-//        if (backdrop && backdrop.parentNode) {
-//          backdrop.parentNode.removeChild(backdrop);
-//        }
-
         this.parentNode.removeChild(this);
       },
 
       hendelUnsubscribe: function (inEvent, inDetail ,inSender) {
-        console.log("hendelUnsubscribe");
 
        if (inSender.hasAttribute('dismiss')){
          this.$.unsubscribeTooltip.show = false;
@@ -252,7 +173,6 @@
          this.$.unsubscribeTooltip.show = true;
          this.$.unsubscribeTooltip.classList.add('on');
        }
-
 
       },
 
@@ -270,16 +190,8 @@
 
       toggleShowAll: function (inEvent, inDetail ,inSender) {
         this.showAll = !this.showAll;
-      },
-
-      test: function (value) {
-        console.log(value);
-
-      },
-
+      }
     });
 
-
   </script>
-
 </polymer-element>
