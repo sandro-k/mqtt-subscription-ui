@@ -24,6 +24,6 @@
         "jquery": "~2.1.1",
         "moment": "~2.7.0",
         "paper-elements": "Polymer/paper-elements#~0.5.5",
-        "mqtt-message-ui": "sandro-k/mqtt-message-ui#master"
+        "mqtt-message-ui": "sandro-k/mqtt-message-ui#~0.0.2"
     }
 }
