@@ -15,14 +15,13 @@
     "homepage": "https://github.com/sandro-k/mqtt-subscription-ui",
     "private": false,
     "ignore": [
-        "node_modules",
-        "*.sass"
+        "node_modules"
     ],
     "dependencies": {
         "polymer": "Polymer/polymer#>=0.5.5",
         "core-elements": "Polymer/core-elements#~0.5.5",
         "jquery": "~2.1.1",
-        "moment": "~2.7.0",
+        "moment": "~2.9.0",
         "paper-elements": "Polymer/paper-elements#~0.5.5",
         "mqtt-message-ui": "sandro-k/mqtt-message-ui#~0.0.3"
     }
