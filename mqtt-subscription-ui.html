@@ -7,6 +7,8 @@
 <link rel="import" href="../core-icons/av-icons.html"/>
 <link rel="import" href="../core-icon-button/core-icon-button.html">
 <link rel="import" href="../core-tooltip/core-tooltip.html">
+<link rel="import" href="../core-style/core-style.html"/>
+<link rel="import" href="../core-list/core-list.html"/>
 
 <link rel="import" href="../changeover-icon/changeover-icon.html"/>
 <!--todo(sandro-k) publish via bower    -->
@@ -19,9 +21,21 @@
 <script src="../jquery/dist/jquery.js"></script>
 
 <!-- declare element -->
-<polymer-element id="{{connectionID}}{{topicID}}" name="mqtt-subscription-ui" attributes="topic, messages, connectionID, topicID, options" constructor="MqttSubscriptionUI">
+<polymer-element id="{{connectionID}}{{topicID}}"
+                 name="mqtt-subscription-ui"
+                 attributes="topic, messages, connectionID, topicID, options"
+                 constructor="MqttSubscriptionUI">
   <template>
     <link rel="stylesheet" href="mqtt-subscription-ui.css"/>
+    <style>
+      .item {
+        border-bottom: 1px solid #cccccc;
+      }
+      .item span {
+        margin: 0 0.2em;
+      }
+    </style>
+    <core-style ref="[[connectionID]]"></core-style>
     <div class="connection {{connectionID}} bg nine border zero sub expanded">
       <div class="row">
         <div class="options" layout horizontal center>
@@ -34,9 +48,9 @@
           <core-icon icon="add" on-click="{{moreMessages}}"></core-icon>
 
           <!--<core-icon-->
-              <!--class="pull-right"-->
-              <!--on-click="{{pause}}"-->
-              <!--icon="av:pause"></core-icon>-->
+          <!--class="pull-right"-->
+          <!--on-click="{{pause}}"-->
+          <!--icon="av:pause"></core-icon>-->
           <div flex></div>
 
           <core-tooltip id="unsubscribeTooltip" position="top">
@@ -64,21 +78,39 @@
       </div>
 
       <core-collapse id="messages" opened>
-          <template repeat="{{message, index in messages}}">
-           <template if="{{ ((messages.length > showMessageCount) &&  (index >= messages.length-showMessageCount)) || ((messages.length <= showMessageCount) && (index < showMessageCount)) || showAll }}">
-             <mqtt-message-ui id="[[index]]" messagId="[[index]]" message="{{message}}"></mqtt-message-ui>
-           </template>
-
+        <template repeat="{{message, index in messages}}">
+          <template if="{{ ((messages.length > showMessageCount) &&  (index >= messages.length-showMessageCount)) || ((messages.length <= showMessageCount) && (index < showMessageCount)) || showAll }}">
+            <mqtt-message-ui id="[[index]]" messagId="[[index]]" message="{{message}}"></mqtt-message-ui>
           </template>
+        </template>
+
+
+        <core-list id="list" data="{{messages}}" style="height:80px;">
+          <template>
+            <!--<mqtt-message-ui id="[[index]]" messagId="[[index]]" message="{{model}}"></mqtt-message-ui>-->
+            <div class="item [[index]]">
+              <span>Row: {{index}}</span>
+
+              <span>[{{model.timestamp}}]</span>
+              <span>Topic: {{model.topic}}</span>
+              <!--{{model.cmd}}-->
+              <!--{{model.connectionID}}-->
+              <!--{{model.connectionName}}-->
+              <span>QoS: {{model.qos}}</span>
+              <span>Retain: {{model.retain}}</span>
+              <span>Dup: {{model.dup}}</span>
+              <!--{{model.length}}-->
+              <span>Payload: {{model.payload}}</span>
+              <!--{{model.type}}-->
+            </div>
+          </template>
+        </core-list>
 
       </core-collapse>
 
     </div>
 
-
-
   </template>
-
 
 
   <script>
@@ -95,18 +127,22 @@
        *
        */
       topicID: '',
-      topic : '',
+      topic: '',
       showMessageCount: 5,
       showAll: false,
 
       observe: {
         'options.qos': 'qosChanged',
-        'options_shadow.qos' : 'qosChanged'
+        'options_shadow.qos': 'qosChanged'
       },
 
       created: function () {
-        this.message = { ID: 1 };
+
+
+        this.message = {ID: 1};
         this.messages = [];
+
+        this.addFakeMessages(3);
         // todo change
 //        this.connectionID = "1";
         this.sumUnRead = 0;
@@ -116,6 +152,32 @@
           qos: this.options.qos,
           messageId: this.options.messageId
         };
+      },
+
+
+      addFakeMessages: function (quantity) {
+
+        var fakeMessage =
+        {
+          cmd: "publish",
+          connectionID: "lens_fZdAAiXR5BxmDK7sx2R0IVXpguQ",
+          connectionName: "127.0.0.1",
+          dup: false,
+          length: "13",
+          payload: "test111",
+          qos: "0",
+          retain: false,
+          timestamp: 1430200745143,
+          topic: "test",
+          type: "plain"
+        };
+
+        var fakePayload = ["CONNECTED", "ONLINE", "OFFLINE", "RUNNING", "FAILED", "CONNECTING", "RECONNECTED"];
+
+        for (var i = 0; i < quantity; i++) {
+          this.messages.push(fakeMessage);
+        }
+
       },
 
       handelopen: function (event, detail, sender) {
@@ -128,7 +190,7 @@
       },
 
       addMessage: function (message) {
-        if (message.payload.charAt(0) == '{'){
+        if(message.payload.charAt(0) == '{') {
           message.type = 'json'
         } else {
           message.type = 'plain';
@@ -136,7 +198,7 @@
 
         this.messages.push(message);
 
-        if (!this.isOpen){
+        if(!this.isOpen) {
           this.sumUnRead++;
         }
       },
@@ -150,7 +212,7 @@
       },
 
 
-      deleteSub: function (inEvent, inDetail ,inSender) {
+      deleteSub: function (inEvent, inDetail, inSender) {
         var model = inSender.templateInstance.model;
       },
 
@@ -161,35 +223,44 @@
         this.parentNode.removeChild(this);
       },
 
-      hendelUnsubscribe: function (inEvent, inDetail ,inSender) {
+      hendelUnsubscribe: function (inEvent, inDetail, inSender) {
 
-       if (inSender.hasAttribute('dismiss')){
-         this.$.unsubscribeTooltip.show = false;
-         this.$.unsubscribeTooltip.classList.remove('on');
+        if(inSender.hasAttribute('dismiss')) {
+          this.$.unsubscribeTooltip.show = false;
+          this.$.unsubscribeTooltip.classList.remove('on');
 
-       } else if (inSender.hasAttribute('confirme')) {
-         this.fire('unsubscribe', {topic: this.topic, connectionID: this.connectionID, source: this});
-       } else {
-         this.$.unsubscribeTooltip.show = true;
-         this.$.unsubscribeTooltip.classList.add('on');
-       }
+        } else if(inSender.hasAttribute('confirme')) {
+          this.fire('unsubscribe', {topic: this.topic, connectionID: this.connectionID, source: this});
+        } else {
+          this.$.unsubscribeTooltip.show = true;
+          this.$.unsubscribeTooltip.classList.add('on');
+        }
 
       },
 
-      moreMessages: function (inEvent, inDetail ,inSender) {
-        if (this.showMessageCount < this.messages.length){
+      moreMessages: function (inEvent, inDetail, inSender) {
+        if(this.showMessageCount < this.messages.length) {
           this.showMessageCount++;
         }
       },
 
-      lessMessages: function (inEvent, inDetail ,inSender) {
-        if (this.showMessageCount > 1){
+      lessMessages: function (inEvent, inDetail, inSender) {
+        if(this.showMessageCount > 1) {
           this.showMessageCount--;
         }
       },
 
-      toggleShowAll: function (inEvent, inDetail ,inSender) {
+      toggleShowAll: function (inEvent, inDetail, inSender) {
         this.showAll = !this.showAll;
+      },
+
+      log: function (param) {
+        console.log(param);
+      },
+
+      debug: function (param) {
+        console.log(param);
+        return param;
       }
     });
 
