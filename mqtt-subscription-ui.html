@@ -85,27 +85,27 @@
         </template>
 
 
-        <core-list id="list" data="{{messages}}" style="height:80px;">
+      <!--  <core-list id="list" data="{{messages}}" style="height:80px;">
           <template>
-            <!--<mqtt-message-ui id="[[index]]" messagId="[[index]]" message="{{model}}"></mqtt-message-ui>-->
+            &lt;!&ndash;<mqtt-message-ui id="[[index]]" messagId="[[index]]" message="{{model}}"></mqtt-message-ui>&ndash;&gt;
             <div class="item [[index]]">
               <span>Row: {{index}}</span>
 
               <span>[{{model.timestamp}}]</span>
               <span>Topic: {{model.topic}}</span>
-              <!--{{model.cmd}}-->
-              <!--{{model.connectionID}}-->
-              <!--{{model.connectionName}}-->
+              &lt;!&ndash;{{model.cmd}}&ndash;&gt;
+              &lt;!&ndash;{{model.connectionID}}&ndash;&gt;
+              &lt;!&ndash;{{model.connectionName}}&ndash;&gt;
               <span>QoS: {{model.qos}}</span>
               <span>Retain: {{model.retain}}</span>
               <span>Dup: {{model.dup}}</span>
-              <!--{{model.length}}-->
+              &lt;!&ndash;{{model.length}}&ndash;&gt;
               <span>Payload: {{model.payload}}</span>
-              <!--{{model.type}}-->
+              &lt;!&ndash;{{model.type}}&ndash;&gt;
             </div>
           </template>
         </core-list>
-
+-->
       </core-collapse>
 
     </div>
@@ -142,7 +142,7 @@
         this.message = {ID: 1};
         this.messages = [];
 
-        this.addFakeMessages(3);
+//        this.addFakeMessages(3);
         // todo change
 //        this.connectionID = "1";
         this.sumUnRead = 0;
